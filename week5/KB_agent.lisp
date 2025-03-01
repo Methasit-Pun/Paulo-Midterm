@@ -2,6 +2,44 @@
 ; 
 ; 	Knowledge Base 
 ; 
+;;; This file implements a knowledge-based agent for a grid world.
+;;; The environment consists of hazards (a monster at 0,3 and pits at 2,0 and 3,1) and a goal at (3,2).
+;;;
+;;; The code is organized as follows:
+;;;
+;;; 1. Knowledge Base Definition:
+;;;    - A class (Knowledge-Base) holds the known propositions (facts about positions, such as whether there
+;;;      might be a monster or a pit) and the rules for updating these propositions based on new percepts.
+;;;    - Propositions include information like !PD (no Pit of Death), PD, !M (no Monster), M, !BS (no Bad Smell),
+;;;      BS, !Bz (no Breeze), Bz, and a visited marker (V).
+;;;
+;;; 2. Helper Functions:
+;;;    - Functions like KB-position-valid, not-in-propositions, and in-propositions are used to check and update
+;;;      the current state of knowledge.
+;;;
+;;; 3. Fluent Update Rules:
+;;;    - The rules (Monster-rule and Pit-of-Death-rule) analyze percepts in adjacent positions. Based on 
+;;;      whether bad smells or breezes (and their negations) are perceived, they infer the presence or absence
+;;;      of a monster or pit at a given position.
+;;;
+;;; 4. Main Agent Functions:
+;;;    - The run-N-times function simulates the agent’s behavior. It:
+;;;      * Prints the agent's current position.
+;;;      * Checks if the goal (position 3,2) is reached.
+;;;      * Retrieves percepts for the current position using get-percepts.
+;;;      * Updates the KB with the new percepts.
+;;;      * Determines safe, unvisited positions (actions) from the KB.
+;;;      * Chooses an action (by selecting the first available) and recurses.
+;;;    - The agent function initializes the KB with safe assumptions at the starting position (0,0)
+;;;      and initiates the simulation.
+;;;
+;;; 5. Environment and Percepts:
+;;;    - The adjacent function checks if two positions are next to each other.
+;;;    - The get-percepts function simulates the agent's perceptual inputs, indicating the nearby presence
+;;;      (or absence) of a monster (bad smell) and pits (breeze).
+;;;
+;;; Overall, the code demonstrates how an agent can reason about its environment and plan safe moves based on
+;;; percepts and rules encoded in its knowledge base.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defclass Knowledge-Base ()
 	(
