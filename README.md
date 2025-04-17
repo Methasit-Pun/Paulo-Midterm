@@ -13,3 +13,4 @@
 Miterm Exam review
 
 - Chapter 9 Hidden Markov Model (Quiz)
+- Chapter 10
